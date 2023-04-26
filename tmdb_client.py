@@ -1,6 +1,8 @@
 import requests
+import random
 
 API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYWZmNDgzMGViMDY4NDRhNWIwMWQyMDNjYzJhNzkyNiIsInN1YiI6IjY0MmMzMjM3OGRlMGFlMDExMzUxMWEzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.w8oqRme7VJA9ccPaCAlXXrIN68m2jZl5vN-nsTDGzPc'
+
 
 def get_movies_list(list_type):
     endpoint = f"https://api.themoviedb.org/3/movie/{list_type}"
@@ -16,8 +18,16 @@ def get_poster_url(poster_api_path, size="w342"):
     return f"{base_url}{size}/{poster_api_path}"
 
 def get_movies(how_many, list_type):
-    data = get_movies_list(list_type)
-    return data["results"][:how_many]
+    if list_type == 'popular':
+        data = get_movies_list('popular')
+    elif list_type == 'top_rated':
+        data =  get_movies_list('top_rated')
+    elif list_type == 'upcoming':
+        data =  get_movies_list('upcoming')
+    elif list_type == 'now_playing':
+        data =  get_movies_list('now_playing')
+    random.shuffle (data['results'])
+    return data['results'][:how_many]
 
 def get_single_movie(movie_id):
     endpoint = f"https://api.themoviedb.org/3/movie/{movie_id}"

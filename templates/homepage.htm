@@ -2,16 +2,23 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-lg-12 text-center">
-        <h1 class="mt-5">Witaj w mojej bibliotece filmów</h1>
+    <div style="color: white"; class="col-lg-12 text-center">
+        <h1 class="mt-5"> Witaj w mojej bibliotece filmów</h1>
         <p class="lead">Znajdziesz tutaj tylko najlepsze tytuły!</p>
-        <div class="col-lg-12 mb-4">
-            <a href="{{ url_for('homepage', list_type='top_rated') }}" class="btn btn-outline-info">Top Rated</a>
-            <a href="{{ url_for('homepage', list_type='popular') }}" class="btn btn-outline-info">Popular</a>
-            <a href="{{ url_for('homepage', list_type='upcoming') }}" class="btn btn-outline-info">Upcoming</a>
-            <a href="{{ url_for('homepage', list_type='now_playing') }}" class="btn btn-outline-info">Now Playing</a>           
-        </div>
-    </div>
+      <br/>
+      <br/>
+ 
+ </div>    
+ <div class="col-lg-12 mb-4">
+    {% for movie_type, description in movie_types.items() %}
+    <a href="{{ url_for('homepage', list_type=movie_type) }}"
+        class="btn btn-outline-info {{ 'active' if movie_type == current_list else '' }}"
+        role="button"
+        aria-pressed="false">
+        {{ description }}
+    </a>
+    {% endfor %}
+</div>
     {% for movie in movies %}
     <div class="col-lg-3 col-md-6 mb-4">
         <div class="card h-100">
@@ -27,3 +34,4 @@
     {% endfor %}
  </div>
 {% endblock %}
+
