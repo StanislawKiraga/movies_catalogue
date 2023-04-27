@@ -26,6 +26,8 @@ def get_movies(how_many, list_type):
         data =  get_movies_list('upcoming')
     elif list_type == 'now_playing':
         data =  get_movies_list('now_playing')
+    else:
+        data = get_movies_list('popular')
     random.shuffle (data['results'])
     return data['results'][:how_many]
 
