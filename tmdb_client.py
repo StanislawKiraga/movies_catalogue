@@ -52,4 +52,3 @@ def search(search_query):
 def get_airing_today():
     return call_tmdb_api(f'tv/airing_today')['results']
 
-  
