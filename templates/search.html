@@ -1,24 +1,13 @@
-{% extends 'index.htm' %}
+{% extends 'index.html' %}
 
 {% block content %}
 <div class="row">
     <div style="color: white"; class="col-lg-12 text-center">
         <h1 class="mt-5"> Witaj w mojej bibliotece filmów</h1>
-        <p class="lead">Znajdziesz tutaj tylko najlepsze tytuły!</p>
+        <p class="lead">Wyniki wyszukiwania dla zapytania: {{ search_query }}</p>
       <br/>
       <br/>
- 
- </div>    
- <div class="col-lg-12 mb-4">
-    {% for movie_type, description in movie_types.items() %}
-    <a href="{{ url_for('homepage', list_type=movie_type) }}"
-        class="btn btn-outline-info {{ 'active' if movie_type == current_list else '' }}"
-        role="button"
-        aria-pressed="false">
-        {{ description }}
-    </a>
-    {% endfor %}
-</div>
+    </div>    
     {% for movie in movies %}
     <div class="col-lg-3 col-md-6 mb-4">
         <div class="card h-100">
@@ -34,4 +23,3 @@
     {% endfor %}
  </div>
 {% endblock %}
-
