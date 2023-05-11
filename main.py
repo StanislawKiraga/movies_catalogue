@@ -61,6 +61,16 @@ def add_to_favorites():
         FAVORITES.add(movie_id)
     return redirect(url_for('homepage'))
 
+@app.route('/favorites')
+def show_favorites():
+    if FAVORITES:
+        movies = []
+        for movie_id in FAVORITES:
+            movie_details = tmdb_client.get_single_movie(movie_id)
+            movies.append(movie_details)
+    else:
+        movies = []
+    return render_template('favorites.html', movies=movies)
 
 if __name__ == '__main__':
     app.run(debug=True)
