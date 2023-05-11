@@ -48,4 +48,8 @@ def get_movie_images(movie_id):
 
 def search(search_query):
     return call_tmdb_api(f'search/movie?query={search_query}')['results']
-    
+
+def get_airing_today():
+    return call_tmdb_api(f'tv/airing_today')['results']
+
+  

@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, redirect, url_for, request
 import tmdb_client
 import random
+import datetime
 
 movie_types = {
 
@@ -10,6 +11,8 @@ movie_types = {
     'upcoming': 'Upcoming'
     
 }
+
+FAVORITES = set()
 
 app = Flask(__name__)
 
@@ -43,6 +46,20 @@ def search():
     else:
         movies= []
     return render_template('search.html', movies=movies, search_query=search_query)
+
+@app.route('/today')
+def today():
+     movies = tmdb_client.get_airing_today()
+     today = datetime.date.today()
+     return render_template('today.html', movies=movies, today=today)
+
+@app.route('/favorites/add', methods=['POST'])
+def add_to_favorites():
+    data = request.form
+    movie_id = data.get('movie_id')
+    if movie_id:
+        FAVORITES.add(movie_id)
+    return redirect(url_for('homepage'))
 
 
 if __name__ == '__main__':
