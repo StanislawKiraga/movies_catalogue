@@ -45,4 +45,7 @@ def get_single_movie_cast(movie_id):
 
 def get_movie_images(movie_id):
     return call_tmdb_api(f'movie/{movie_id}/images')
+
+def search(search_query):
+    return call_tmdb_api(f'search/movie?query={search_query}')['results']
     
