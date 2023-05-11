@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
 import tmdb_client
 import random
 import datetime
@@ -16,6 +16,7 @@ FAVORITES = set()
 
 app = Flask(__name__)
 
+app.secret_key = b'my-secret-key'
 
 @app.route('/')
 def homepage():
@@ -57,8 +58,10 @@ def today():
 def add_to_favorites():
     data = request.form
     movie_id = data.get('movie_id')
-    if movie_id:
+    movie_title = data.get('movie_title')
+    if movie_id and movie_title:
         FAVORITES.add(movie_id)
+        flash(f'Dodano film {movie_title} do ulubionych.')
     return redirect(url_for('homepage'))
 
 @app.route('/favorites')
@@ -70,7 +73,18 @@ def show_favorites():
             movies.append(movie_details)
     else:
         movies = []
+        flash(f'Na razie nic tu nie ma.')
     return render_template('favorites.html', movies=movies)
+
+@app.route('/favorites/delete', methods=['POST'])
+def delete_from_favorites():
+    data = request.form
+    movie_id = data.get('movie_id')
+    movie_title = data.get('movie_title')
+    if movie_id and movie_title:
+        FAVORITES.remove(movie_id)
+        flash(f'Usunięto {movie_title} z listy ulubionych.')
+        return redirect(url_for('show_favorites'))
 
 if __name__ == '__main__':
     app.run(debug=True)
